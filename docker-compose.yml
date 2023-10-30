@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      dockerfile: provision/php-fpm/Dockerfile
+    volumes:
+      - .:/app
+  nginx:
+    build:
+      dockerfile: provision/nginx/Dockerfile
+    ports:
+      - "3030:80"
+    depends_on:
+      - api
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
